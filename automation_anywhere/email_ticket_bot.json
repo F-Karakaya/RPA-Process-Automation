@@ -1,0 +1,91 @@
+{
+    "botName": "Email Ticket Bot",
+    "version": "1.0.0",
+    "description": "Reads emails from support inbox and creates tickets in JIRA/ServiceNow.",
+    "author": "RPA Developer",
+    "createdDate": "2024-03-20T10:00:00Z",
+    "actions": [
+        {
+            "id": "1",
+            "command": "Email: Connect",
+            "parameters": {
+                "server": "imap.company.com",
+                "port": "993",
+                "ssl": true,
+                "username": "$Credential_EmailUser$",
+                "password": "$Credential_EmailPass$"
+            }
+        },
+        {
+            "id": "2",
+            "command": "Loop: Each Email",
+            "parameters": {
+                "folder": "Inbox",
+                "subjectFilter": "Support Request",
+                "status": "Unread"
+            },
+            "children": [
+                {
+                    "id": "3",
+                    "command": "Email: Get Property",
+                    "parameters": {
+                        "property": "Subject",
+                        "variable": "vSubject"
+                    }
+                },
+                {
+                    "id": "4",
+                    "command": "Email: Get Property",
+                    "parameters": {
+                        "property": "Body",
+                        "variable": "vBody"
+                    }
+                },
+                {
+                    "id": "5",
+                    "command": "String: Extract",
+                    "parameters": {
+                        "source": "vBody",
+                        "before": "Issue:",
+                        "after": "\n",
+                        "variable": "vIssueType"
+                    }
+                },
+                {
+                    "id": "6",
+                    "command": "REST: Post",
+                    "parameters": {
+                        "url": "https://api.servicenow.com/api/now/table/incident",
+                        "method": "POST",
+                        "headers": {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer $Token$"
+                        },
+                        "body": {
+                            "short_description": "$vSubject$",
+                            "description": "$vBody$",
+                            "category": "$vIssueType$"
+                        },
+                        "outputVariable": "vResponse"
+                    }
+                },
+                {
+                    "id": "7",
+                    "command": "Email: Move",
+                    "parameters": {
+                        "targetFolder": "Processed"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "8",
+            "command": "Email: Disconnect"
+        }
+    ],
+    "errorHandling": {
+        "action": "Log to File",
+        "path": "C:\\Bots\\Logs\\error.log",
+        "notify": "admin@company.com"
+    }
+}

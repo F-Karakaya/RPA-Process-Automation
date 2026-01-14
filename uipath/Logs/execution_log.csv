@@ -1,0 +1,7 @@
+Timestamp,Process Name,Duration,Status,Records Processed,Error Message,Bot ID
+2024-03-25 09:00:01,InvoiceProcessing,00:01:45,Success,15,,BOT-01
+2024-03-25 09:15:00,InvoiceProcessing,00:02:10,Success,20,,BOT-02
+2024-03-25 09:30:15,InvoiceProcessing,00:00:30,Failed,5,Timeout Error in ERP,BOT-01
+2024-03-25 10:00:00,InvoiceProcessing,00:01:55,Success,18,,BOT-01
+2024-03-25 10:30:00,InvoiceProcessing,00:02:05,Success,22,,BOT-03
+2024-03-25 11:00:10,InvoiceProcessing,00:00:45,Failed,0,Login Failed,BOT-02

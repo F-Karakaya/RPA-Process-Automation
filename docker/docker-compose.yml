@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # AI Service Container
+  rpa-ai-service:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: rpa-ai-core
+    volumes:
+      - ../outputs:/app/outputs
+      - ../logs:/app/logs
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all # Enable GPU access
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+  # Database for Logging (PostgreSQL)
+  rpa-db:
+    image: postgres:15-alpine
+    container_name: rpa-postgres
+    environment:
+      POSTGRES_USER: rpa_admin
+      POSTGRES_PASSWORD: securePassword123
+      POSTGRES_DB: rpa_logs
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Dashboard / Monitoring Service (Simulated)
+  rpa-dashboard:
+    image: grafana/grafana:latest
+    container_name: rpa-grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - rpa-db
+
+volumes:
+  postgres_data:

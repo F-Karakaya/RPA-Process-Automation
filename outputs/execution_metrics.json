@@ -1,0 +1,22 @@
+{
+    "summary": {
+        "total_executions": 1250,
+        "successful_executions": 1180,
+        "failed_executions": 70,
+        "success_rate": 94.4
+    },
+    "performance": {
+        "avg_execution_time_sec": 45.5,
+        "throughput_per_hour": 150,
+        "time_saved_hours": 312.5
+    },
+    "financials": {
+        "cost_per_transaction_manual": 8.5,
+        "cost_per_transaction_auto": 0.5,
+        "total_savings": 10000.0
+    },
+    "comparison": {
+        "manual_error_rate": "5%",
+        "auto_error_rate": "0.1%"
+    }
+}

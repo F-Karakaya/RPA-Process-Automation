@@ -1,0 +1,17 @@
+[
+    {
+        "text_snippet": "Invoice for services rendered....",
+        "classification": "Invoice",
+        "confidence": 0.32243165842905386
+    },
+    {
+        "text_snippet": "Purchase Order for office supp...",
+        "classification": "Purchase Order",
+        "confidence": 0.3450408691186518
+    },
+    {
+        "text_snippet": "Terms of Service Agreement for...",
+        "classification": "Contract",
+        "confidence": 0.3547033015788006
+    }
+]
